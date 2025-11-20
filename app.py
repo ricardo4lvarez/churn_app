@@ -28,8 +28,14 @@ if hist_button:
     # 'use_container_width=True' ajusta el ancho del gráfico al contenedor
     st.plotly_chart(fig, use_container_width=True)
 """
-
-
+#Simplemente hice la limpieza del EDA
+df.drop(columns=["RowNumber", "CustomerId", "Surname"], axis=1, inplace=True)
+df.rename(columns={"Exited":"Churn"}, inplace=True)
+variables_cat = ["Tenure", "Geography", "Gender", "NumOfProducts", "HasCrCard", "IsActiveMember", "Complain", "Satisfaction Score", "Card Type"]
+df[variables_cat] = df[variables_cat].astype("category")
+secciones = [0,10,20,30,40,50,60,70,80,90,100]
+labelss = ["0-10", "11-20", "21-30","31-40", "41-50", "51-60", "61-70", "71-80", "81-90", "90+"]
+df["Edades"] = pd.cut(df["Age"], secciones,labels=labelss, include_lowest=True)
 
 # --- Tu gráfica ---
 fig = plt.figure(figsize=(4,5))
