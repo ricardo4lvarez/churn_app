@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import plotly.graph_objects as go  # Importación de plotly.graph_objects como go
 import seaborn as sns
@@ -5,7 +6,15 @@ import matplotlib.pyplot as plt
 import streamlit as st
 
 # Leer los datos del archivo CSV
-df = pd.read_csv("Dataset/Customer-Churn-Records.csv")
+
+# Ruta absoluta al directorio donde está app.py
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Construir la ruta completa al CSV
+csv_path = os.path.join(BASE_DIR, "Dataset", "Customer-Churn-Records.csv")
+
+# Leer archivo
+df = pd.read_csv(csv_path)
 
 
 """
