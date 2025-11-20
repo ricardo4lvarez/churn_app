@@ -167,5 +167,85 @@ st.pyplot(fig)
 - Volvemos a apreciar que las mujeres son más propensas a *abandonar*que los hombres.
 """
 
+fig = plt.figure(figsize=(10,5))
+ax = sns.countplot(data=grupo1, x="Gender", hue="Edades", palette="pastel", edgecolor="black")
+plt.title("Churn count by gender and age ranges")
+for container in ax.containers:
+    ax.bar_label(container)
+st.pyplot(fig)
+
+
+fig = plt.figure(figsize=(10,5))
+ax = sns.countplot(data=grupo2, x="Gender", hue="Edades", palette="pastel", edgecolor="black")
+plt.title("NO Churning count by Gender and Age ranges")
+for container in ax.containers:
+    ax.bar_label(container)
+st.pyplot(fig)
+
+"""
+## Insigths
+
+- 38.9% de las mujeres de entre 41 a 50 años han *abandonado*.
+- 65.2% de las mujeres de entre 51 a 60 años han *abandonado*.
+
+- 29.5% de los hombres de entre 41 a 50 años han *abandonado*.
+- 47.5% de los hombres de entre 51 a 60 años han *abandonado*.
+
+
+Reafirmamos que el rango de edades entre 41 a 50 años es la que más abandona. y los que menos (en proporción) de entre 21 a 40 años.
+
+"""
+
+order_geos = ['France', 'Germany', 'Spain']
+
+fig = plt.figure(figsize=(10,5))
+ax = sns.countplot(data=grupo1, x="NumOfProducts", hue="Geography", palette="pastel", edgecolor="black", hue_order=order_geos)
+plt.title("Churning count by Num of products and Geography")
+for container in ax.containers:
+    ax.bar_label(container)
+st.pyplot(fig)
+
+fig = plt.figure(figsize=(10,5))
+ax = sns.countplot(data=grupo2, x="NumOfProducts", hue="Geography", palette="pastel", edgecolor="black", hue_order=order_geos)
+plt.title("NO Churning count by Num of products and Geography")
+for container in ax.containers:
+    ax.bar_label(container)
+st.pyplot(fig)
+
+"""
+### Insights
+
+- En total el 27.7% de los usuarios del primer producto lo han *abandonado*.
+- El 22% de los franceses han *abandonado* el primer producto.
+- El 44% de los alemanes han *abandonado* el primer producto.
+- El 21% de los alemanes han *abandonado* el primer producto.
+
+Independiente de la región los números de productos 3 y 4 siempre son *abandonados*.
+
+El número de productos que menos es *abandonado* es el 2, sobre todo en Francia.
+"""
 #%% Análisis de correlación
 
+
+
+#%%% Conclusiones Generales
+
+"""
+# Conclusiones Generales
+
+Personas que **más** *abandonan* en proporción:
+
+- Mujeres.
+- Gente de 51 a 60 años (seguidos de gente entre 41 a 50 años).
+- Alemanes.
+- Los números de productos 3 y 4 independientemente del género y región. Es seguido por el 1.
+- Casi el 100% de la gente que emitió una queja.
+
+Personas que **menos** *abandonan* en proporción:
+
+- Hombres.
+- Gente de entre 31 y 40 años (seguidos de 21 a 30 años).
+- Franceses.
+- El número de producto que menos *abandonan* es el 2.
+- Las personas activas tienden a *abandonar* menos.
+"""
