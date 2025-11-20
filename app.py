@@ -1,5 +1,4 @@
 import pandas as pd
-import plotly.graph_objects as go  # Importación de plotly.graph_objects como go
 import seaborn as sns
 import matplotlib.pyplot as plt
 import streamlit as st
@@ -7,27 +6,18 @@ import streamlit as st
 # Leer los datos del archivo CSV
 df = pd.read_csv("Database/Customer-Churn-Records.csv")
 
+"""
+# Análisis de clientes bancarios que dimitieron
+
+Este dataset fue obtenido de Kaggel: https://www.kaggle.com/datasets/radheshyamkollipara/bank-customer-churn/data
+
+Ya realicé el EDA de este proyecto, por lo que recomiendo vayan al repositorio donde podrán ver todos los archivos: https://github.com/ricardo4lvarez/vehicles_app.git
+"""
 
 """
-# Crear un botón en la aplicación Streamlit
-hist_button = st.button('Construir histograma')
-
-# Lógica a ejecutar cuando se hace clic en el botón
-if hist_button:
-    # Escribir un mensaje en la aplicación
-    st.write('Creación de un histograma para el conjunto de datos de anuncios de venta de coches')
-
-    # Crear un histograma utilizando plotly.graph_objects
-    # Se crea una figura vacía y luego se añade un rastro de histograma
-    fig = go.Figure(data=[go.Histogram(x=car_data['odometer'])])
-
-    # Opcional: Puedes añadir un título al gráfico si lo deseas
-    fig.update_layout(title_text='Distribución del Odómetro')
-
-    # Mostrar el gráfico Plotly interactivo en la aplicación Streamlit
-    # 'use_container_width=True' ajusta el ancho del gráfico al contenedor
-    st.plotly_chart(fig, use_container_width=True)
+Voy a comenzar identificando cuántos de los usuarios han dimitido y cuántos no.
 """
+
 #%% Limpieza EDA
 df.drop(columns=["RowNumber", "CustomerId", "Surname"], axis=1, inplace=True)
 df.rename(columns={"Exited":"Churn"}, inplace=True)
@@ -37,11 +27,10 @@ secciones = [0,10,20,30,40,50,60,70,80,90,100]
 labelss = ["0-10", "11-20", "21-30","31-40", "41-50", "51-60", "61-70", "71-80", "81-90", "90+"]
 df["Edades"] = pd.cut(df["Age"], secciones,labels=labelss, include_lowest=True)
 
-#%% Primera gráfica
+#%% Filtro con cehckboxes
 mostrar_churn_1 = st.checkbox("Mostrar clientes que dimitieron", value=True)
 mostrar_churn_0 = st.checkbox("Mostrar clientes que NO dimitieron", value=True)
 
-# ---- Filtrado según checkboxes ----
 filtro = []
 
 if mostrar_churn_1:
@@ -52,9 +41,8 @@ if mostrar_churn_0:
 
 df_filtrado = df[df["Churn"].isin(filtro)]
 
-
-# ---- Gráfica ----
-fig = plt.figure(figsize=(4,5))
+#%%Primera gáfica
+fig = plt.figure()
 ax = sns.countplot(
     data=df_filtrado,
     x="Churn",
@@ -63,16 +51,32 @@ ax = sns.countplot(
     hue="Churn"
 )
 plt.title("Churn counts")
-plt.legend(['No', 'Si'])
 
 for container in ax.containers:
     ax.bar_label(container)
 st.pyplot(fig)
 
+"""
+Ahora vamos a iniciar con un análisis univariable de las columnas categóricas respecto a los usuarios que dimitieron y los que no 
+
+NOTA: 1 significa que dimitieron, 0 significa que siguen usando el servicio.
+"""
+
 #%% Segunda gráfica
 for col, predicor in enumerate(df_filtrado.select_dtypes("category")):
     fig = plt.figure()
     sns.countplot(data=df_filtrado, x=predicor, hue="Churn", palette=['#bee7e8', '#bf4342'], edgecolor="black")
-    plt.title(f"{col} distribution by Churn")
-    plt.legend(["No churn", "Churn"])
+    plt.title(f"{predicor} distribution by Churn")
     st.pyplot(fig)
+
+#%% Insigths del análisis univariable
+"""### Insights
+
+- Podemos observar que el grupo de edad que más *abandona* 30 años a los 60 años.
+- Los productos 3 y 4 tienen más personas que *abandonan* que usuarios activos casi en un 100%.
+- Si una persona ha hecho alguna queja es probable, casi en un 100%, que va a *abandonar*.
+- Las personas que viven en Alemania *abandonan* la compañía con más frecuencia.
+- Las mujeres tienen a *abandonar* los servicios más que los hombres.
+"""
+
+#%%%
