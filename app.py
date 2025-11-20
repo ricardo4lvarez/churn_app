@@ -3,6 +3,9 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import streamlit as st
 
+churn_0_check = True
+churn_1_check = True
+
 # Leer los datos del archivo CSV
 df = pd.read_csv("Database/Customer-Churn-Records.csv")
 
@@ -34,10 +37,16 @@ mostrar_churn_0 = st.checkbox("Mostrar clientes que NO dimitieron", value=True)
 filtro = []
 
 if mostrar_churn_1:
+    churn_1_check = True
     filtro.append(1)
+else:
+    churn_1_check = False
 
 if mostrar_churn_0:
+    churn_0_check = True
     filtro.append(0)
+else:
+    churn_0_check = False
 
 df_filtrado = df[df["Churn"].isin(filtro)]
 
@@ -50,7 +59,15 @@ ax = sns.countplot(
     edgecolor="black",
     hue="Churn"
 )
+
 plt.title("Churn counts")
+
+if churn_1_check & churn_0_check:
+    plt.legend(['No', 'Si'])
+elif churn_1_check & churn_0_check == False:
+    plt.legend(['Si'])
+elif churn_1_check == False & churn_0_check:
+    plt.legend(['No'])
 
 for container in ax.containers:
     ax.bar_label(container)
@@ -79,4 +96,29 @@ for col, predicor in enumerate(df_filtrado.select_dtypes("category")):
 - Las mujeres tienen a *abandonar* los servicios más que los hombres.
 """
 
-#%%%
+#%%% KDA plots
+
+"""
+Ahora vamos a iniciar con un análisis univariable de las columnas numéricas respecto a los usuarios que dimitieron y los que no 
+
+NOTA: 1 significa que dimitieron, 0 significa que siguen usando el servicio.
+
+"""
+
+for i, predicor in enumerate(df_filtrado.select_dtypes("number")):
+    fig = plt.figure()
+    sns.kdeplot(data=df_filtrado, x=predicor, hue="Churn")
+    plt.legend(["Churn", "No Churn"])
+    st.pyplot(fig)
+
+"""
+### Insights
+
+- Podemos observar que el grupo de edad que más *abandona* 30 años a los 60 años.
+- Los productos 3 y 4 tienen más personas que *abandonan* que usuarios activos casi en un 100%.
+- Si una persona ha hecho alguna queja es probable, casi en un 100%, que va a *abandonar*.
+- Las personas que viven en Alemania *abandonan* la compañía con más frecuencia.
+- Las mujeres tienen a *abandonar* los servicios más que los hombres.
+"""
+#%% Análisis de correlación
+
