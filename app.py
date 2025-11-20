@@ -67,7 +67,7 @@ if churn_1_check & churn_0_check:
     plt.legend(['No', 'Yes'])
 elif not churn_0_check & churn_1_check:
     plt.legend(['No'])
-elif not churn_1_check & churn_0_check:
+elif churn_1_check == False & churn_0_check:
     plt.legend(['Yes'])
 
 for container in ax.containers:
@@ -82,10 +82,19 @@ NOTA: 1 significa que dimitieron, 0 significa que siguen usando el servicio.
 """
 
 #%% Segunda gráfica
-for col, predicor in enumerate(df_filtrado.select_dtypes("category")):
+for col, col in enumerate(df_filtrado.select_dtypes("category")):
     fig = plt.figure()
-    sns.countplot(data=df_filtrado, x=predicor, hue="Churn", palette=['#bee7e8', '#bf4342'], edgecolor="black")
-    plt.title(f"{predicor} distribution by Churn")
+    sns.countplot(data=df_filtrado, x=col, hue="Churn", palette=['#bee7e8', '#bf4342'], edgecolor="black")
+    plt.title(f"{col} distribution by Churn")
+
+    #Configurar la leyenda dependiendo del filtro
+    if churn_1_check & churn_0_check:
+        plt.legend(['No', 'Yes'])
+    elif not churn_0_check & churn_1_check:
+        plt.legend(['No'])
+    elif churn_1_check == False & churn_0_check:
+        plt.legend(['Yes'])
+
     st.pyplot(fig)
 
 #%% Insigths del análisis univariable
@@ -108,17 +117,17 @@ NOTA: 1 significa que dimitieron, 0 significa que siguen usando el servicio.
 
 """
 
-for i, predicor in enumerate(df_filtrado.select_dtypes("number")):
-    if predicor == 'Churn':
+for i, col in enumerate(df_filtrado.select_dtypes("number")):
+    if col == 'Churn':
         continue
     
     fig = plt.figure()
-    sns.kdeplot(data=df_filtrado, x=predicor, hue="Churn")
+    sns.kdeplot(data=df_filtrado, x=col, hue="Churn")
     
     #Configurar la leyenda dependiendo del filtro
     if churn_1_check & churn_0_check:
         plt.legend(['No', 'Yes'])
-    elif churn_1_check & churn_0_check == False:
+    elif not churn_0_check & churn_1_check:
         plt.legend(['No'])
     elif churn_1_check == False & churn_0_check:
         plt.legend(['Yes'])
@@ -128,11 +137,11 @@ for i, predicor in enumerate(df_filtrado.select_dtypes("number")):
 """
 ## Insights
 
-- Podemos observar que el grupo de edad que más *abandona* 30 años a los 60 años.
-- Los productos 3 y 4 tienen más personas que *abandonan* que usuarios activos casi en un 100%.
-- Si una persona ha hecho alguna queja es probable, casi en un 100%, que va a *abandonar*.
+- Podemos observar que el grupo de edad que más *dimite* 30 años a los 60 años.
+- Los productos 3 y 4 tienen más personas que *dimiten* que usuarios activos casi en un 100%.
+- Si una persona ha hecho alguna queja es probable, casi en un 100%, que van a *dimitir*.
 - Las personas que viven en Alemania *abandonan* la compañía con más frecuencia.
-- Las mujeres tienen a *abandonar* los servicios más que los hombres.
+- Las mujeres tienen a *dimitir* los servicios más que los hombres.
 """
 
 #%% Churn vs no churn análisis
@@ -163,8 +172,8 @@ st.pyplot(fig)
 """
 ## Insights
 
-- Observamos que Alemania y Francia tienen la mayor cantidad de personas que *abandonan* la compañía, sin embargo, proporcionalmente Alemania es mayor su taza de abandono, 37.2% para las mujeres y 27.8% para los hombres.
-- Volvemos a apreciar que las mujeres son más propensas a *abandonar*que los hombres.
+- Observamos que Alemania y Francia tienen la mayor cantidad de personas que *dimiten* la compañía, sin embargo, proporcionalmente Alemania es mayor su taza de abandono, 37.2% para las mujeres y 27.8% para los hombres.
+- Volvemos a apreciar que las mujeres son más propensas a *dimitir* que los hombres.
 """
 
 fig = plt.figure(figsize=(10,5))
@@ -185,14 +194,14 @@ st.pyplot(fig)
 """
 ## Insigths
 
-- 38.9% de las mujeres de entre 41 a 50 años han *abandonado*.
-- 65.2% de las mujeres de entre 51 a 60 años han *abandonado*.
+- 38.9% de las mujeres de entre 41 a 50 años han dimitido.
+- 65.2% de las mujeres de entre 51 a 60 años han dimitido.
 
-- 29.5% de los hombres de entre 41 a 50 años han *abandonado*.
-- 47.5% de los hombres de entre 51 a 60 años han *abandonado*.
+- 29.5% de los hombres de entre 41 a 50 años han dimitido.
+- 47.5% de los hombres de entre 51 a 60 años han dimitido.
 
 
-Reafirmamos que el rango de edades entre 41 a 50 años es la que más abandona. y los que menos (en proporción) de entre 21 a 40 años.
+Reafirmamos que el rango de edades entre 41 a 50 años es la que más dimiten, y los que menos (en proporción) de entre 21 a 40 años.
 
 """
 
@@ -215,10 +224,10 @@ st.pyplot(fig)
 """
 ### Insights
 
-- En total el 27.7% de los usuarios del primer producto lo han *abandonado*.
-- El 22% de los franceses han *abandonado* el primer producto.
-- El 44% de los alemanes han *abandonado* el primer producto.
-- El 21% de los alemanes han *abandonado* el primer producto.
+- En total el 27.7% de los usuarios del primer producto han dimitido.
+- El 22% de los franceses han dimitido el primer producto.
+- El 44% de los alemanes han dimitido el primer producto.
+- El 21% de los alemanes han dimitido el primer producto.
 
 Independiente de la región los números de productos 3 y 4 siempre son *abandonados*.
 
@@ -226,14 +235,28 @@ El número de productos que menos es *abandonado* es el 2, sobre todo en Francia
 """
 #%% Análisis de correlación
 
+df_dummies = pd.get_dummies(df, dtype=int)
+fig = plt.figure(figsize=(20,8))
+plt.title('Churning correlation')
+df_dummies.corr()["Churn"].sort_values(ascending=False).plot(kind="bar")
+st.pyplot(fig)
 
+"""
+### Insights
+
+- Como describimos anteriormente las quejas están extremadamente relacionadas con el *abandono* de los usuarios.
+- Podemos ver que hay correlación entre las personas entre los 41 años y 60 años con el *abandono* de la compañía.
+- Las personas que están entre 21 y 40 años tienen una notoria correlación negativa con el *abandono*.
+- Las personas activas son menos propensas a *dimitir*.
+- **La cantidad de tiempo** que llevan en la compañía, el **tipo de tarjeta de crédito** que utilicen y el **salario estimado** precticamente no tienen influencia en si *dimiten* o no.
+"""
 
 #%%% Conclusiones Generales
 
 """
 # Conclusiones Generales
 
-Personas que **más** *abandonan* en proporción:
+Personas que **más** *dimiten* en proporción:
 
 - Mujeres.
 - Gente de 51 a 60 años (seguidos de gente entre 41 a 50 años).
@@ -241,7 +264,7 @@ Personas que **más** *abandonan* en proporción:
 - Los números de productos 3 y 4 independientemente del género y región. Es seguido por el 1.
 - Casi el 100% de la gente que emitió una queja.
 
-Personas que **menos** *abandonan* en proporción:
+Personas que **menos** *dimiten* en proporción:
 
 - Hombres.
 - Gente de entre 31 y 40 años (seguidos de 21 a 30 años).
