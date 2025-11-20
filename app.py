@@ -38,8 +38,8 @@ labelss = ["0-10", "11-20", "21-30","31-40", "41-50", "51-60", "61-70", "71-80",
 df["Edades"] = pd.cut(df["Age"], secciones,labels=labelss, include_lowest=True)
 
 #%% Primera gráfica
-mostrar_churn_1 = st.checkbox("Mostrar clientes que sí dimitieron (Churn = 1)", value=True)
-mostrar_churn_0 = st.checkbox("Mostrar clientes que no dimitieron (Churn = 0)", value=True)
+mostrar_churn_1 = st.checkbox("Mostrar clientes que dimitieron", value=True)
+mostrar_churn_0 = st.checkbox("Mostrar clientes que NO dimitieron", value=True)
 
 # ---- Filtrado según checkboxes ----
 filtro = []
@@ -62,11 +62,17 @@ ax = sns.countplot(
     edgecolor="black",
     hue="Churn"
 )
-
 plt.title("Churn counts")
+plt.legend(['No', 'Si'])
 
 for container in ax.containers:
     ax.bar_label(container)
-
 st.pyplot(fig)
 
+#%% Segunda gráfica
+for col, predicor in enumerate(df_filtrado.select_dtypes("category")):
+    fig = plt.figure()
+    sns.countplot(data=df_filtrado, x=predicor, hue="Churn", palette=['#bee7e8', '#bf4342'], edgecolor="black")
+    plt.title(f"{col} distribution by Churn")
+    plt.legend(["No churn", "Churn"])
+    st.pyplot(fig)
