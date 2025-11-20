@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import streamlit as st
 
 # Leer los datos del archivo CSV
-df = pd.read_csv("../Customer-Churn-Records.csv")
+df = pd.read_csv("Dataset/Customer-Churn-Records.csv")
 
 
 """
