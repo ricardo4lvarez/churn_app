@@ -36,16 +36,22 @@ mostrar_churn_1 = st.checkbox("Mostrar clientes que dimitieron", value=True)
 mostrar_churn_0 = st.checkbox("Mostrar clientes que NO dimitieron", value=True)
 
 filtro = []
+paleta = []
+leyenda = []
 
 if mostrar_churn_1:
     churn_1_check = True
     filtro.append(1)
+    paleta.append('#bee7e8')
+    leyenda.append('Churn')
 else:
     churn_1_check = False
 
 if mostrar_churn_0:
     churn_0_check = True
     filtro.append(0)
+    paleta.append('#bf4342')
+    leyenda.append('No churn')
 else:
     churn_0_check = False
 
@@ -56,19 +62,14 @@ fig = plt.figure()
 ax = sns.countplot(
     data=df_filtrado,
     x="Churn",
-    palette=['#bee7e8', '#bf4342'],
+    palette=paleta,
     edgecolor="black",
     hue="Churn"
 )
 
 plt.title("Churn counts")
 
-if churn_1_check & churn_0_check:
-    plt.legend(['No', 'Yes'])
-elif not churn_0_check & churn_1_check:
-    plt.legend(['No'])
-elif churn_1_check == False & churn_0_check:
-    plt.legend(['Yes'])
+plt.legend(leyenda)
 
 for container in ax.containers:
     ax.bar_label(container)
@@ -84,17 +85,9 @@ NOTA: 1 significa que dimitieron, 0 significa que siguen usando el servicio.
 #%% Segunda gráfica
 for col, col in enumerate(df_filtrado.select_dtypes("category")):
     fig = plt.figure()
-    sns.countplot(data=df_filtrado, x=col, hue="Churn", palette=['#bee7e8', '#bf4342'], edgecolor="black")
+    sns.countplot(data=df_filtrado, x=col, hue="Churn", palette=paleta, edgecolor="black")
     plt.title(f"{col} distribution by Churn")
-
-    #Configurar la leyenda dependiendo del filtro
-    if churn_1_check & churn_0_check:
-        plt.legend(['No', 'Yes'])
-    elif not churn_0_check & churn_1_check:
-        plt.legend(['No'])
-    elif churn_1_check == False & churn_0_check:
-        plt.legend(['Yes'])
-
+    plt.legend(leyenda)
     st.pyplot(fig)
 
 #%% Insigths del análisis univariable
@@ -122,16 +115,8 @@ for i, col in enumerate(df_filtrado.select_dtypes("number")):
         continue
     
     fig = plt.figure()
-    sns.kdeplot(data=df_filtrado, x=col, hue="Churn")
-    
-    #Configurar la leyenda dependiendo del filtro
-    if churn_1_check & churn_0_check:
-        plt.legend(['No', 'Yes'])
-    elif not churn_0_check & churn_1_check:
-        plt.legend(['No'])
-    elif churn_1_check == False & churn_0_check:
-        plt.legend(['Yes'])
-
+    sns.kdeplot(data=df_filtrado, x=col, hue="Churn", palette=paleta)
+    plt.legend(leyenda)
     st.pyplot(fig)
 
 """
