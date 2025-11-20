@@ -1,10 +1,14 @@
 import pandas as pd
 import plotly.graph_objects as go  # Importación de plotly.graph_objects como go
+import seaborn as sns
+import matplotlib.pyplot as plt
 import streamlit as st
 
 # Leer los datos del archivo CSV
-car_data = pd.read_csv('Database/vehicles_us.csv')
+df = pd.read_csv("../Database/Customer-Churn-Records.csv")
 
+
+"""
 # Crear un botón en la aplicación Streamlit
 hist_button = st.button('Construir histograma')
 
@@ -23,3 +27,25 @@ if hist_button:
     # Mostrar el gráfico Plotly interactivo en la aplicación Streamlit
     # 'use_container_width=True' ajusta el ancho del gráfico al contenedor
     st.plotly_chart(fig, use_container_width=True)
+"""
+
+
+
+# --- Tu gráfica ---
+fig = plt.figure(figsize=(4,5))
+ax = sns.countplot(
+    data=df,
+    x="Churn",
+    palette=['#bee7e8', '#bf4342'],
+    edgecolor="black",
+    hue="Churn"
+)
+
+plt.title("Churn counts")
+
+for container in ax.containers:
+    ax.bar_label(container)
+
+# --- Mostrar en Streamlit ---
+st.pyplot(fig)
+
