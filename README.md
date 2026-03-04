@@ -18,6 +18,7 @@ El objetivo principal es identificar patrones de comportamiento que expliquen po
 
 
 ## Estructura del proyecto
+```
 churn_app/
 │
 ├── Database/
@@ -29,7 +30,7 @@ churn_app/
 ├── app.py
 ├── requirements.txt
 └── README.md
-
+```
 
 ## El proyecto se desarrolló siguiendo las siguientes etapas:
 
@@ -68,7 +69,7 @@ La aplicación permite:
 ## Principales Insigths
 
 Personas que más abandonan en proporción:
-```
+
     Mujeres.
     Gente de 51 a 60 años (seguidos de gente entre 41 a 50 años).
     Alemanes.
@@ -82,4 +83,3 @@ Personas que menos abandonan en proporción:
     Franceses.
     El número de producto que menos abandonan es el 2.
     Las personas activas tienden a abandonar menos.
-```
