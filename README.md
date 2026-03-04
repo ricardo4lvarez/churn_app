@@ -70,16 +70,16 @@ La aplicación permite:
 
 Personas que más abandonan en proporción:
 
-    Mujeres.
-    Gente de 51 a 60 años (seguidos de gente entre 41 a 50 años).
-    Alemanes.
-    Los números de productos 3 y 4 independientemente del género y región. Es seguido por el 1.
-    Casi el 100% de la gente que emitió una queja.
+- Mujeres.
+- Gente de 51 a 60 años (seguidos de gente entre 41 a 50 años).
+- Alemanes.
+- Los números de productos 3 y 4 independientemente del género y región. Es seguido por el 1.
+- Casi el 100% de la gente que emitió una queja.
 
 Personas que menos abandonan en proporción:
 
-    Hombres.
-    Gente de entre 31 y 40 años (seguidos de 21 a 30 años).
-    Franceses.
-    El número de producto que menos abandonan es el 2.
-    Las personas activas tienden a abandonar menos.
+- Hombres.
+- Gente de entre 31 y 40 años (seguidos de 21 a 30 años).
+- Franceses.
+- El número de producto que menos abandonan es el 2.
+- Las personas activas tienden a abandonar menos.
