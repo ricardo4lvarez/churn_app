@@ -33,7 +33,7 @@ churn_app/
 
 ## El proyecto se desarrolló siguiendo las siguientes etapas:
 
-1️⃣ Exploración de Datos (EDA)
+### Exploración de Datos (EDA)
 
 - Identificación de valores nulos
 - Análisis de variables categóricas y numéricas
@@ -41,14 +41,14 @@ churn_app/
 - Detección de correlaciones
 - Análisis por segmentos
 
-2️⃣ Limpieza y Transformación
+### Limpieza y Transformación
 
 - Conversión de tipos de datos
 - Manejo de valores faltantes
 - Estandarización de variables categóricas
 - Creación de métricas derivadas
 
-3️⃣ Visualización
+### Visualización
 
 - Se implementaron gráficos interactivos que permiten:
 - Comparar churn por tipo de contrato
@@ -56,7 +56,7 @@ churn_app/
 - Evaluar impacto del cargo mensual
 - Comparar clientes activos vs. inactivos
 
-4️⃣ Implementación Web
+### Implementación Web
 
 La aplicación permite:
 
@@ -68,7 +68,7 @@ La aplicación permite:
 ## Principales Insigths
 
 Personas que más abandonan en proporción:
-
+```
     Mujeres.
     Gente de 51 a 60 años (seguidos de gente entre 41 a 50 años).
     Alemanes.
@@ -82,3 +82,4 @@ Personas que menos abandonan en proporción:
     Franceses.
     El número de producto que menos abandonan es el 2.
     Las personas activas tienden a abandonar menos.
+```
