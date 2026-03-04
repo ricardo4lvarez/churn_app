@@ -5,6 +5,7 @@ Este proyecto consiste en el desarrollo de una aplicación web interactiva para 
 
 El objetivo principal es identificar patrones de comportamiento que expliquen por qué algunos clientes cancelan el servicio mientras otros permanecen activos, permitiendo así generar insights estratégicos orientados a la retención de clientes.
 
+La aplicación está desplegada y puede visualizarse en el siguiente enlace: https://vehicles-app-2fst.onrender.com
 
 ## Stack Tecnológico
 - Python 3
