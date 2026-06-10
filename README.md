@@ -1,4 +1,4 @@
-# vehicles_app
+# Churn App
 Proyecto de sprint 7 de TripleTen
 
 Este proyecto consiste en el desarrollo de una aplicación web interactiva para el análisis del abandono de clientes (Customer Churn) en una compañía telefónica.
